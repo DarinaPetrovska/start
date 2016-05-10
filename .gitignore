@@ -1,0 +1,94 @@
+<?php get_header(); ?>
+<?php if (have_posts()) : while (have_posts()) : the_post();?>     
+
+	<div id="main">
+		<div class="container">
+			<aside>
+				<div class="aside-menu">
+					<div class="aside-menu-title">	<?php if(!dynamic_sidebar('menu_left_title')): ?>
+                                <?php endif;?></div>
+					<ul>
+							<?php if(!dynamic_sidebar('menu_left')): ?>
+                                <?php endif;?>
+					</ul>
+				</div>
+                 <?php    
+                       $args=array(
+                       'posts_per_page' => -1,
+                       'post_type' => 'reclame',                      
+                 );                     
+    $query = new WP_Query( $args );
+        while ( $query->have_posts() ) :
+        $query->the_post();    
+        ?>               
+					<div class="reclame">
+					<a href="<?php the_field('url'); ?>"><?php echo get_the_post_thumbnail(); ?>
+					<div class="reclame-title"><?php the_content();?></div></a>
+				</div>
+                	<?php endwhile; ?>
+        <?php wp_reset_query(); ?>
+			</aside>
+			<div class="block-content">
+             <?php if( have_rows('slider3') ): ?>
+          <div class="slider">
+           <?php $i=1; 
+                  while( have_rows('slider3') ): the_row(); 
+                  $i++; ?>
+					<div>
+						<div class="slider-box" style="background-image: url('<?php the_sub_field('img'); ?>');">
+							<!--
+							<div class="slider-body">
+								<div class="slider-title"><?php the_sub_field('title'); ?></div>
+								<div class="slider-text"><?php the_sub_field('text'); ?> </p>
+								</div>
+							</div>
+							-->
+						</div>
+					</div>
+                    <?php endwhile; ?> 
+				
+				</div>
+                <?php endif; ?>
+                
+				<div class="content main-content">
+                
+				<?php the_content(); ?>
+		
+					<div class="action" style="background-image: url('<?php the_field('imgm'); ?>');">
+						<div class="action-body">
+							<div class="action-title"><?php the_field('titlem'); ?></div>
+							<div class="action-text">
+								<?php the_field('titlem_text'); ?>
+							</div>
+							<div class="action-img">
+								<img src="<?php the_field('imgm2'); ?>" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr/><!--<div class="partners">-->
+                        <?php    
+                       $args=array(
+                       'posts_per_page' => -1,
+                       'post_type' => 'partners',                      
+                 );                     
+    $query = new WP_Query( $args );
+        while ( $query->have_posts() ) :
+        $query->the_post();    
+        ?>    
+				
+              
+					<!--<div class="partners-box">-->
+					<a class='partner' href="<?php the_content();?>"><?php echo get_the_post_thumbnail(); ?></a>	
+					<!--</div>-->
+                     				
+				
+                	<?php endwhile; ?>
+        <?php wp_reset_query(); ?>
+        </div>
+			</div>
+		</div>
+	<!--</div>-->
+
+<?php endwhile; endif; ?>		
+<?php get_footer(); ?>
